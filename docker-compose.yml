@@ -1,0 +1,33 @@
+# docker-compose.yml
+version: '3.8'
+
+services:
+  cassandra:
+    image: cassandra:3.11
+    container_name: cassandra
+    ports:
+      - "9042:9042"
+    environment:
+      - CASSANDRA_KEYSPACE=examplekeyspace
+    networks:
+      - nodejs-cassandra-network
+    healthcheck:
+      test: [ "CMD-SHELL", "cqlsh -u cassandra -p cassandra -e 'describe keyspaces'" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  nodejs-app:
+    build: .
+    container_name: nodejs-app
+    ports:
+      - "3000:3000"
+    depends_on:
+      cassandra:
+        condition: service_healthy
+    networks:
+      - nodejs-cassandra-network
+
+networks:
+  nodejs-cassandra-network:
+    driver: bridge

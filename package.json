@@ -1,0 +1,14 @@
+{
+  "name": "node-cassandra-app",
+  "version": "1.0.0",
+  "description": "A simple Node.js app with Cassandra",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cassandra-driver": "^4.6.3",
+    "uuid": "^8.3.2"
+  }
+}
